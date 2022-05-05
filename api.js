@@ -288,3 +288,28 @@ function changeStatusTodo(id) {
       getData(renderData);
     });
 }
+
+// sort
+
+const sort = document.getElementById("orderBy");
+sort.addEventListener("change", function (event) {
+  event.preventDefault();
+  function getData() {
+    fetch(apiLink)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        const values = data.data;
+        let sortValue = Number(sort.value);
+        let sortDescription = [...values];
+        sortDescription.sort(function (a, b) {
+          if (a.description > b.description) return sortValue;
+          if (a.description < b.description) return -sortValue;
+          return 0;
+        });
+        renderData(sortDescription);
+      });
+  }
+  getData();
+});
